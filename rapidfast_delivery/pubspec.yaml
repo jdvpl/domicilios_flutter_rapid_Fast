@@ -28,6 +28,8 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  lottie: ^1.1.0
+  email_validator: ^2.0.1
 
 dev_dependencies:
   flutter_test:
@@ -51,6 +53,8 @@ flutter:
 
   assets:
     - assets/img/
+    - assets/json/
+    - assets/fonts/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -63,6 +67,29 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
+  fonts:
+    - family: Pacifico
+      fonts:
+        - asset: assets/fonts/Pacifico/Pacifico.ttf
+
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto/Roboto-Regular.ttf
+
+    - family: RobotoMedium
+      fonts:
+        - asset: assets/fonts/Roboto/Roboto-Medium.ttf
+
+    - family: NimbusSans
+      fonts:
+        - asset: assets/fonts/NimbusSans/NimbusSanL-Reg.otf
+
+    - family: OneDay
+      fonts:
+        - asset: assets/fonts/OneDay/ONEDAY.ttf
+    - family: CustomIcons
+      fonts:
+        - asset: assets/fonts/CustomIcons.ttf
   # fonts:
   #   - family: Schyler
   #     fonts:

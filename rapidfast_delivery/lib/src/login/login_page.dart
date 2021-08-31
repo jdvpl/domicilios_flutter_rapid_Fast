@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:lottie/lottie.dart';
+import 'package:rapidfast_delivery/src/login/login_controller.dart';
 import 'package:rapidfast_delivery/src/utils/my_colors.dart';
 
 class LoginPage extends StatefulWidget {
@@ -9,6 +12,17 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  LoginController _con = new LoginController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      _con.init(context);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,15 +35,22 @@ class _LoginPageState extends State<LoginPage> {
             SingleChildScrollView(
               child: Column(
                 children: [
-                  _imageBanner(),
+                  _lottieanimation(),
                   _txtFiledEmail(
                       "Correo Electronico",
                       Icon(
                         Icons.mail,
                         color: MyColors.primaryColor,
-                      )),
-                  _txtFiledEmail("Contraseña",
-                      Icon(Icons.lock, color: MyColors.primaryColor)),
+                      ),
+                      TextInputType.emailAddress,
+                      _con.emailcontroller,
+                      false),
+                  _txtFiledEmail(
+                      "Contraseña",
+                      Icon(Icons.lock, color: MyColors.primaryColor),
+                      TextInputType.visiblePassword,
+                      _con.passwordcontroller,
+                      true),
                   _btnLogin(),
                   _txtNotienesCuente()
                 ],
@@ -41,26 +62,17 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _imageBanner() {
-    return Container(
-      margin: EdgeInsets.only(
-          top: MediaQuery.of(context).size.height * 0.15,
-          bottom: MediaQuery.of(context).size.height * 0.15),
-      child: Image.asset(
-        'assets/img/delivery.png',
-        width: 200,
-        height: 200,
-      ),
-    );
-  }
-
-  Widget _txtFiledEmail(String text, Icon icon) {
+  Widget _txtFiledEmail(String text, Icon icon, TextInputType type,
+      TextEditingController controller, bool oscure) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 5),
       decoration: BoxDecoration(
           color: MyColors.prymaryOpacity,
           borderRadius: BorderRadius.circular(30)),
       child: TextField(
+        controller: controller,
+        keyboardType: type,
+        obscureText: oscure,
         decoration: InputDecoration(
           hintText: text,
           hintStyle: TextStyle(color: MyColors.primaryColorDark),
@@ -77,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
       width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: _con.login,
         child: Text(
           "INGRESAR",
           style: TextStyle(
@@ -105,10 +117,15 @@ class _LoginPageState extends State<LoginPage> {
         SizedBox(
           width: 8,
         ),
-        Text(
-          "Registrate",
-          style: TextStyle(
-              fontWeight: FontWeight.bold, color: MyColors.primaryColor),
+        GestureDetector(
+          onTap: _con.goToRegisterPage,
+          child: Text(
+            "Registrate",
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: MyColors.primaryColor,
+                fontSize: 19),
+          ),
         ),
       ],
     );
@@ -136,7 +153,20 @@ class _LoginPageState extends State<LoginPage> {
           style: TextStyle(
               color: MyColors.white,
               fontSize: 25,
+              fontFamily: 'NimbusSans',
               fontWeight: FontWeight.bold)),
+    );
+  }
+
+  Widget _lottieanimation() {
+    return Container(
+      margin: EdgeInsets.only(
+          top: MediaQuery.of(context).size.height * 0.15,
+          bottom: MediaQuery.of(context).size.height * 0.1),
+      child: Lottie.asset('assets/json/delivery.json',
+          width: MediaQuery.of(context).size.width * 0.8,
+          height: MediaQuery.of(context).size.height * 0.3,
+          fit: BoxFit.fill),
     );
   }
 }

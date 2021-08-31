@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rapidfast_delivery/src/login/login_page.dart';
+import 'package:rapidfast_delivery/src/register/register_page.dart';
 import 'package:rapidfast_delivery/src/utils/my_colors.dart';
 
 void main() {
@@ -22,6 +23,7 @@ class _MyAppState extends State<MyApp> {
       initialRoute: 'login',
       routes: {
         'login': (BuildContext context) => LoginPage(),
+        'register': (BuildContext context) => RegisterPage(),
       },
       theme: ThemeData(
         primaryColor: MyColors.primaryColor,
