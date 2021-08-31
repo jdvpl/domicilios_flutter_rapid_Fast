@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:lottie/lottie.dart';
+import 'package:rapidfast_delivery/src/pages/register/register_controller.dart';
 import 'package:rapidfast_delivery/src/utils/my_colors.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -10,6 +12,17 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  RegisterController _con = new RegisterController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      _con.init(context);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,40 +38,53 @@ class _RegisterPageState extends State<RegisterPage> {
                 children: [
                   _lottieanimation(),
                   _txtFiledEmail(
-                    "Correo Electronico",
-                    Icon(
-                      Icons.mail,
-                      color: MyColors.primaryColor,
-                    ),
-                  ),
+                      "Correo Electronico",
+                      Icon(
+                        Icons.mail,
+                        color: MyColors.primaryColor,
+                      ),
+                      TextInputType.emailAddress,
+                      _con.emailcontroller,
+                      false),
                   _txtFiledEmail(
-                    "Nombre",
-                    Icon(
-                      Icons.person,
-                      color: MyColors.primaryColor,
-                    ),
-                  ),
+                      "Nombre",
+                      Icon(
+                        Icons.person,
+                        color: MyColors.primaryColor,
+                      ),
+                      TextInputType.text,
+                      _con.namecontroller,
+                      false),
                   _txtFiledEmail(
-                    "Apellido",
-                    Icon(
-                      Icons.person_outline,
-                      color: MyColors.primaryColor,
-                    ),
-                  ),
+                      "Apellido",
+                      Icon(
+                        Icons.person_outline,
+                        color: MyColors.primaryColor,
+                      ),
+                      TextInputType.text,
+                      _con.lastnamecontroller,
+                      false),
                   _txtFiledEmail(
-                    "Telefono",
-                    Icon(
-                      Icons.phone,
-                      color: MyColors.primaryColor,
-                    ),
-                  ),
+                      "Telefono",
+                      Icon(
+                        Icons.phone,
+                        color: MyColors.primaryColor,
+                      ),
+                      TextInputType.phone,
+                      _con.phonecontroller,
+                      false),
                   _txtFiledEmail(
-                    "Contraseña",
-                    Icon(Icons.lock, color: MyColors.primaryColor),
-                  ),
+                      "Contraseña",
+                      Icon(Icons.lock, color: MyColors.primaryColor),
+                      TextInputType.text,
+                      _con.passwordcontroller,
+                      true),
                   _txtFiledEmail(
                     "Repetir Contraseña",
                     Icon(Icons.lock_outline, color: MyColors.primaryColor),
+                    TextInputType.text,
+                    _con.confirmpasswordcontroller,
+                    true,
                   ),
                   _btnLogin(),
                   _txtNotienesCuente()
@@ -71,13 +97,17 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  Widget _txtFiledEmail(String text, Icon icon) {
+  Widget _txtFiledEmail(String text, Icon icon, TextInputType type,
+      TextEditingController controller, bool oscure) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 5),
       decoration: BoxDecoration(
           color: MyColors.prymaryOpacity,
           borderRadius: BorderRadius.circular(30)),
       child: TextField(
+        controller: controller,
+        keyboardType: type,
+        obscureText: oscure,
         decoration: InputDecoration(
           hintText: text,
           hintStyle: TextStyle(color: MyColors.primaryColorDark),
@@ -94,7 +124,7 @@ class _RegisterPageState extends State<RegisterPage> {
       width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: _con.register,
         child: Text(
           "REGISTRARME",
           style: TextStyle(
