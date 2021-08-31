@@ -24,3 +24,8 @@ npm i bluebird`
 ### encriptar la contraseña
 
 `npm i crypto`
+
+### instalar pastport y jwt
+
+`npm i pastport
+npm i pastport-jwt`

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rapidfast_delivery/src/pages/client/products/list/client_products_list_page.dart';
 import 'package:rapidfast_delivery/src/pages/login/login_page.dart';
 import 'package:rapidfast_delivery/src/pages/register/register_page.dart';
 import 'package:rapidfast_delivery/src/utils/my_colors.dart';
@@ -24,6 +25,8 @@ class _MyAppState extends State<MyApp> {
       routes: {
         'login': (BuildContext context) => LoginPage(),
         'register': (BuildContext context) => RegisterPage(),
+        'client/product/list': (BuildContext context) =>
+            CLientProductListPage(),
       },
       theme: ThemeData(
         primaryColor: MyColors.primaryColor,

@@ -17,7 +17,10 @@ class User {
     this.phone,
     this.image,
     this.password,
+    this.isAvailable,
     this.sessionToken,
+    this.createdAt,
+    this.updatedAt,
   });
 
   String id;
@@ -40,7 +43,10 @@ class User {
         phone: json["phone"],
         image: json["image"],
         password: json["password"],
+        isAvailable: json["is_available"],
         sessionToken: json["session_token"],
+        createdAt: json["created_at"],
+        updatedAt: json["updated_at"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -51,6 +57,9 @@ class User {
         "phone": phone,
         "image": image,
         "password": password,
+        "is_available": isAvailable,
         "session_token": sessionToken,
+        "created_at": createdAt,
+        "updated_at": updatedAt,
       };
 }

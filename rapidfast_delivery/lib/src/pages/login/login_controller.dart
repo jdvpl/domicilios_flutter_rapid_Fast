@@ -1,24 +1,58 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:rapidfast_delivery/src/models/repose_api.dart';
+import 'package:rapidfast_delivery/src/models/user.dart';
+import 'package:rapidfast_delivery/src/providers/users_providers.dart';
+import 'package:rapidfast_delivery/src/utils/shared_pref.dart';
+import 'package:rapidfast_delivery/src/utils/snackbar.dart';
 
 class LoginController {
   BuildContext context;
   TextEditingController emailcontroller = new TextEditingController();
   TextEditingController passwordcontroller = new TextEditingController();
+  UsersProviders usersProviders = new UsersProviders();
 
-  Future init(BuildContext context) {
+  SharedPref _sharedPref = new SharedPref();
+
+  Future init(BuildContext context) async {
     this.context = context;
+    await usersProviders.init(context);
+    User user = User.fromJson(await _sharedPref.read('user') ?? {});
+
+    print("Usuario ${user?.toJson()}");
+
+    if (user?.sessionToken != null) {
+      Navigator.pushNamedAndRemoveUntil(
+          context, 'client/product/list', (route) => false);
+    }
   }
 
   void goToRegisterPage() {
     Navigator.pushNamed(context, 'register');
   }
 
-  void login() {
+  void login() async {
     String email = emailcontroller.text.trim();
     String password = passwordcontroller.text.trim();
     bool isValid = EmailValidator.validate(email);
-    print("Credenciales $email y $password");
-    print('Email is valid? ' + (isValid ? 'yes' : 'no'));
+
+    if (!isValid) {
+      Snackbar.showSnackbar(context, "correo invalido");
+    }
+    if (email.isEmpty || password.isEmpty) {
+      Snackbar.showSnackbar(context, "Ingresar todos los campos.");
+    }
+    ResponseApi responseApi = await usersProviders.login(email, password);
+
+    if (responseApi.success) {
+      User user = User.fromJson(responseApi.data);
+      print("data: ${user.toJson()}");
+      _sharedPref.save("user", user.toJson());
+
+      Navigator.pushNamedAndRemoveUntil(
+          context, 'client/product/list', (route) => false);
+    } else {
+      Snackbar.showSnackbar(context, responseApi.message);
+    }
   }
 }

@@ -3,6 +3,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:rapidfast_delivery/src/models/repose_api.dart';
 import 'package:rapidfast_delivery/src/models/user.dart';
 import 'package:rapidfast_delivery/src/providers/users_providers.dart';
+import 'package:rapidfast_delivery/src/utils/snackbar.dart';
 
 class RegisterController {
   BuildContext context;
@@ -15,10 +16,10 @@ class RegisterController {
 
   // provider
   UsersProviders usersProviders = new UsersProviders();
-  Future init(BuildContext context) {
+  Future init(BuildContext context) async {
     this.context = context;
     // se coloca el metodo init porque alla ya tiene el constructor
-    usersProviders.init(context);
+    await usersProviders.init(context);
   }
 
   void goToRegisterPage() {
@@ -34,6 +35,28 @@ class RegisterController {
     String confirmpassword = confirmpasswordcontroller.text.trim();
     bool isValid = EmailValidator.validate(email);
 
+    if (email.isEmpty ||
+        name.isEmpty ||
+        phone.isEmpty ||
+        lastname.isEmpty ||
+        password.isEmpty ||
+        confirmpassword.isEmpty) {
+      Snackbar.showSnackbar(context, "Debes ingresar todos los campos.");
+      return;
+    }
+    if (confirmpassword != password) {
+      Snackbar.showSnackbar(context, "Las constraseñas no coinciden.");
+      return;
+    }
+    if (password.length < 6) {
+      Snackbar.showSnackbar(
+          context, "La constraseñas debe tener al menos 6 caracteres.");
+      return;
+    }
+    if (!isValid) {
+      Snackbar.showSnackbar(context, "Correo invalido.");
+      return;
+    }
     User user = new User(
       email: email,
       name: name,
@@ -42,10 +65,12 @@ class RegisterController {
       password: password,
     );
     ResponseApi resposeApi = await usersProviders.create(user);
-    print("RESPUESTA: ${resposeApi.toJson()}");
 
-    print(
-        "Credenciales $email \n$name \n$lastname \n$phone  \n$password \n$confirmpassword");
-    print('Email is valid? ' + (isValid ? 'yes' : 'no'));
+    Snackbar.showSnackbar(context, resposeApi.message);
+  }
+
+  // volver atras
+  void back() {
+    Navigator.pop(context);
   }
 }

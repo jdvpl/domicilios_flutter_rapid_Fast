@@ -33,62 +33,66 @@ class _RegisterPageState extends State<RegisterPage> {
             _circleLogin(),
             _iconBack(),
             _textLogin(),
-            SingleChildScrollView(
-              child: Column(
-                children: [
-                  _lottieanimation(),
-                  _txtFiledEmail(
-                      "Correo Electronico",
-                      Icon(
-                        Icons.mail,
-                        color: MyColors.primaryColor,
-                      ),
-                      TextInputType.emailAddress,
-                      _con.emailcontroller,
-                      false),
-                  _txtFiledEmail(
-                      "Nombre",
-                      Icon(
-                        Icons.person,
-                        color: MyColors.primaryColor,
-                      ),
+            Container(
+              width: double.infinity,
+              margin: EdgeInsets.only(top: 100),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    _lottieanimation(),
+                    _txtFiledEmail(
+                        "Correo Electronico",
+                        Icon(
+                          Icons.mail,
+                          color: MyColors.primaryColor,
+                        ),
+                        TextInputType.emailAddress,
+                        _con.emailcontroller,
+                        false),
+                    _txtFiledEmail(
+                        "Nombre",
+                        Icon(
+                          Icons.person,
+                          color: MyColors.primaryColor,
+                        ),
+                        TextInputType.text,
+                        _con.namecontroller,
+                        false),
+                    _txtFiledEmail(
+                        "Apellido",
+                        Icon(
+                          Icons.person_outline,
+                          color: MyColors.primaryColor,
+                        ),
+                        TextInputType.text,
+                        _con.lastnamecontroller,
+                        false),
+                    _txtFiledEmail(
+                        "Telefono",
+                        Icon(
+                          Icons.phone,
+                          color: MyColors.primaryColor,
+                        ),
+                        TextInputType.phone,
+                        _con.phonecontroller,
+                        false),
+                    _txtFiledEmail(
+                        "Contraseña",
+                        Icon(Icons.lock, color: MyColors.primaryColor),
+                        TextInputType.text,
+                        _con.passwordcontroller,
+                        true),
+                    _txtFiledEmail(
+                      "Repetir Contraseña",
+                      Icon(Icons.lock_outline, color: MyColors.primaryColor),
                       TextInputType.text,
-                      _con.namecontroller,
-                      false),
-                  _txtFiledEmail(
-                      "Apellido",
-                      Icon(
-                        Icons.person_outline,
-                        color: MyColors.primaryColor,
-                      ),
-                      TextInputType.text,
-                      _con.lastnamecontroller,
-                      false),
-                  _txtFiledEmail(
-                      "Telefono",
-                      Icon(
-                        Icons.phone,
-                        color: MyColors.primaryColor,
-                      ),
-                      TextInputType.phone,
-                      _con.phonecontroller,
-                      false),
-                  _txtFiledEmail(
-                      "Contraseña",
-                      Icon(Icons.lock, color: MyColors.primaryColor),
-                      TextInputType.text,
-                      _con.passwordcontroller,
-                      true),
-                  _txtFiledEmail(
-                    "Repetir Contraseña",
-                    Icon(Icons.lock_outline, color: MyColors.primaryColor),
-                    TextInputType.text,
-                    _con.confirmpasswordcontroller,
-                    true,
-                  ),
-                  _btnLogin(),
-                  _txtNotienesCuente()
-                ],
+                      _con.confirmpasswordcontroller,
+                      true,
+                    ),
+                    _btnLogin(),
+                    _txtNotienesCuente()
+                  ],
+                ),
               ),
             ),
           ],
@@ -155,7 +159,7 @@ class _RegisterPageState extends State<RegisterPage> {
             width: 8,
           ),
           GestureDetector(
-            onTap: () {},
+            onTap: _con.back,
             child: Text(
               "Iniciar Sesion",
               style: TextStyle(
@@ -185,12 +189,15 @@ class _RegisterPageState extends State<RegisterPage> {
     return Positioned(
       top: 74,
       left: 26,
-      child: Text("REGISTRO",
-          style: TextStyle(
-              color: MyColors.white,
-              fontSize: 20,
-              fontFamily: 'NimbusSans',
-              fontWeight: FontWeight.bold)),
+      child: GestureDetector(
+        onTap: _con.back,
+        child: Text("REGISTRO",
+            style: TextStyle(
+                color: MyColors.white,
+                fontSize: 20,
+                fontFamily: 'NimbusSans',
+                fontWeight: FontWeight.bold)),
+      ),
     );
   }
 
@@ -200,15 +207,14 @@ class _RegisterPageState extends State<RegisterPage> {
       left: -5,
       child: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: MyColors.white),
-          onPressed: () {}),
+          onPressed: _con.back),
     );
   }
 
   Widget _lottieanimation() {
     return Container(
-      margin: EdgeInsets.only(
-          top: MediaQuery.of(context).size.height * 0.15,
-          bottom: MediaQuery.of(context).size.height * 0.02),
+      margin:
+          EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.02),
       child: Lottie.asset('assets/json/register.json',
           width: MediaQuery.of(context).size.width * 0.7,
           height: MediaQuery.of(context).size.height * 0.25,

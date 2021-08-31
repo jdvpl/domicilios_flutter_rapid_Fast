@@ -5,4 +5,5 @@ class MyColors {
   static Color primaryColorDark = Color(0xFFA7001C);
   static Color prymaryOpacity = Color.fromRGBO(231, 13, 50, 0.1);
   static Color white = Colors.white;
+  static Color black = Colors.black;
 }
