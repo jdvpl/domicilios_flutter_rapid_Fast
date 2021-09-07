@@ -13,7 +13,14 @@ const users = require('./routes/usersRoutes');
 
 const port = process.env.PORT || 3000;
 
-app.use(logger('dev'));
+if (app.get('env') == 'production') {
+    app.use(logger('common', { skip: function(req, res) { return res.statusCode < 400 }, stream: __dirname + '/../morgan.log' }));
+  } else {
+    app.use(logger('dev'));
+  }
+
+
+
 app.use(express.json());
 app.use(express.urlencoded({
     extended: true
@@ -29,13 +36,11 @@ app.set('port', port);
 */
 users(app);
 
-server.listen(3000, '192.168.20.20' || 'localhost', function() {
-    console.log('Aplicacion de NodeJS ' + port + ' Iniciada...')
+app.listen(process.env.PORT || 3000, () => {
+    console.log("Escuchando el puerto: 3000 http://localhost:"+port);
 });
 
-app.get('/hola', (req, res)=>{
-    res.send('kisama')
-})
+
 // ERROR HANDLER
 app.use((err, req, res, next) => {
     console.log(err);
