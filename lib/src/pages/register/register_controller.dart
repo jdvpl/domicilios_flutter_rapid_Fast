@@ -16,10 +16,10 @@ class RegisterController {
 
   // provider
   UsersProviders usersProviders = new UsersProviders();
-  Future init(BuildContext context) async {
+  Future init(BuildContext context) {
     this.context = context;
     // se coloca el metodo init porque alla ya tiene el constructor
-    await usersProviders.init(context);
+    usersProviders.init(context);
   }
 
   void goToRegisterPage() {
@@ -64,9 +64,16 @@ class RegisterController {
       phone: phone,
       password: password,
     );
-    ResponseApi resposeApi = await usersProviders.create(user);
-
-    Snackbar.showSnackbar(context, resposeApi.message);
+    print(user.lastname);
+    try {
+      ResponseApi resposeApi = await usersProviders.create(user);
+      print("Respuesta ${resposeApi.toJson()}");
+      Snackbar.showSnackbar(context, resposeApi.message);
+      print("Paso por aca");
+      print(resposeApi.message);
+    } catch (e) {
+      print("error ${e.message}");
+    }
   }
 
   // volver atras
