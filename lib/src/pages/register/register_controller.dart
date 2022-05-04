@@ -16,6 +16,7 @@ class RegisterController {
 
   // provider
   UsersProviders usersProviders = new UsersProviders();
+  // ignore: missing_return
   Future init(BuildContext context) {
     this.context = context;
     // se coloca el metodo init porque alla ya tiene el constructor
@@ -67,9 +68,12 @@ class RegisterController {
     print(user.lastname);
     try {
       ResponseApi resposeApi = await usersProviders.create(user);
-      print("Respuesta ${resposeApi.toJson()}");
       Snackbar.showSnackbar(context, resposeApi.message);
-      print("Paso por aca");
+      if (resposeApi.success) {
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.pushNamedAndRemoveUntil(context, 'login', (route) => false);
+        });
+      }
       print(resposeApi.message);
     } catch (e) {
       print("error ${e.message}");

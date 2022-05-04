@@ -11,6 +11,7 @@ class UsersProviders {
   String _url = Environment.API_DELIVERY;
   String _api = '/api/users';
 
+  // ignore: missing_return
   Future init(BuildContext context) {
     this.context = context;
   }

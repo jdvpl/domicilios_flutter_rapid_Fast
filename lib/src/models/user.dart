@@ -4,24 +4,26 @@
 
 import 'dart:convert';
 
+import 'package:rapidfast_delivery/src/models/rol.dart';
+
 User userFromJson(String str) => User.fromJson(json.decode(str));
 
 String userToJson(User data) => json.encode(data.toJson());
 
 class User {
-  User({
-    this.id,
-    this.email,
-    this.name,
-    this.lastname,
-    this.phone,
-    this.image,
-    this.password,
-    this.isAvailable,
-    this.sessionToken,
-    this.createdAt,
-    this.updatedAt,
-  });
+  User(
+      {this.id,
+      this.email,
+      this.name,
+      this.lastname,
+      this.phone,
+      this.image,
+      this.password,
+      this.isAvailable,
+      this.sessionToken,
+      this.createdAt,
+      this.updatedAt,
+      this.roles});
 
   String id;
   String email;
@@ -34,9 +36,10 @@ class User {
   String sessionToken;
   int createdAt;
   int updatedAt;
+  List<Rol> roles = [];
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-        id: json["id"],
+        id: json["id"] is int ? json["id"].toString() : json["id"],
         email: json["email"],
         name: json["name"],
         lastname: json["lastname"],
@@ -47,6 +50,11 @@ class User {
         sessionToken: json["session_token"],
         createdAt: json["created_at"],
         updatedAt: json["updated_at"],
+        roles: json["roles"] == null
+            ? []
+            : List<Rol>.from(
+                    json["roles"].map((model) => Rol.fromJson(model))) ??
+                [],
       );
 
   Map<String, dynamic> toJson() => {
@@ -61,5 +69,6 @@ class User {
         "session_token": sessionToken,
         "created_at": createdAt,
         "updated_at": updatedAt,
+        "roles": roles,
       };
 }

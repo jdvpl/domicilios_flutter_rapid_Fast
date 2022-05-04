@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:rapidfast_delivery/src/pages/client/products/list/client_products_list_page.dart';
+import 'package:rapidfast_delivery/src/pages/delivery/orders/list/delivery_orders_list_page.dart';
 import 'package:rapidfast_delivery/src/pages/login/login_page.dart';
 import 'package:rapidfast_delivery/src/pages/register/register_page.dart';
+import 'package:rapidfast_delivery/src/pages/restaurant/orders/list/restaurant_orders_list_page.dart';
+import 'package:rapidfast_delivery/src/pages/roles/roles_page.dart';
 import 'package:rapidfast_delivery/src/utils/my_colors.dart';
 
 void main() {
@@ -25,8 +28,13 @@ class _MyAppState extends State<MyApp> {
       routes: {
         'login': (BuildContext context) => LoginPage(),
         'register': (BuildContext context) => RegisterPage(),
-        'client/product/list': (BuildContext context) =>
+        'roles': (BuildContext context) => RolesPage(),
+        'client/products/list': (BuildContext context) =>
             CLientProductListPage(),
+        'restaurant/order/list': (BuildContext context) =>
+            RestaurantOrdersListPage(),
+        'delivery/order/list': (BuildContext context) =>
+            DeliveryOrdersListPage(),
       },
       theme: ThemeData(
         primaryColor: MyColors.primaryColor,

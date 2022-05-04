@@ -23,7 +23,7 @@ class LoginController {
 
     if (user?.sessionToken != null) {
       Navigator.pushNamedAndRemoveUntil(
-          context, 'client/product/list', (route) => false);
+          context, 'client/products/list', (route) => false);
     }
   }
 
@@ -49,8 +49,13 @@ class LoginController {
       print("data: ${user.toJson()}");
       _sharedPref.save("user", user.toJson());
 
-      Navigator.pushNamedAndRemoveUntil(
-          context, 'client/product/list', (route) => false);
+      print("Usuario log ${user.toJson()}");
+      if (user.roles.length > 1) {
+        Navigator.pushNamedAndRemoveUntil(context, 'roles', (route) => false);
+      } else {
+        Navigator.pushNamedAndRemoveUntil(
+            context, user.roles[0].route, (route) => false);
+      }
     } else {
       Snackbar.showSnackbar(context, responseApi.message);
     }
