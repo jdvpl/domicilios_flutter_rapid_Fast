@@ -18,7 +18,7 @@ class _DeliveryOrdersListPageState extends State<DeliveryOrdersListPage> {
   void initState() {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      _con.init(context);
+      _con.init(context, refresh);
     });
   }
 
@@ -61,7 +61,7 @@ class _DeliveryOrdersListPageState extends State<DeliveryOrdersListPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "UserName",
+                  '${_con.user?.name ?? ''} ${_con.user?.lastname ?? ''}',
                   style: TextStyle(
                       color: MyColors.white,
                       fontWeight: FontWeight.bold,
@@ -69,7 +69,7 @@ class _DeliveryOrdersListPageState extends State<DeliveryOrdersListPage> {
                   maxLines: 1,
                 ),
                 Text(
-                  "Email",
+                  '${_con.user?.email ?? ''} ',
                   style: TextStyle(
                     color: Colors.grey[200],
                     fontWeight: FontWeight.bold,
@@ -79,7 +79,7 @@ class _DeliveryOrdersListPageState extends State<DeliveryOrdersListPage> {
                   maxLines: 1,
                 ),
                 Text(
-                  "Telefono",
+                  '${_con.user?.phone ?? ''} ',
                   style: TextStyle(
                     color: Colors.grey[200],
                     fontWeight: FontWeight.bold,
@@ -92,7 +92,9 @@ class _DeliveryOrdersListPageState extends State<DeliveryOrdersListPage> {
                   height: heightImage,
                   margin: EdgeInsets.only(top: marginTopImage),
                   child: FadeInImage(
-                    image: AssetImage("assets/img/no-image.png"),
+                    image: _con.user?.image != null
+                        ? NetworkImage(_con.user?.image)
+                        : AssetImage("assets/img/no-image.png"),
                     fit: BoxFit.contain,
                     fadeInDuration: Duration(milliseconds: 50),
                     placeholder: AssetImage("assets/img/no-image.png"),
@@ -118,5 +120,9 @@ class _DeliveryOrdersListPageState extends State<DeliveryOrdersListPage> {
         ],
       ),
     );
+  }
+
+  void refresh() {
+    setState(() {});
   }
 }

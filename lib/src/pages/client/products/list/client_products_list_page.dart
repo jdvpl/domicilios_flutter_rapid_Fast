@@ -18,7 +18,7 @@ class _CLientProductListPageState extends State<CLientProductListPage> {
   void initState() {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      _con.init(context);
+      _con.init(context, refresh);
     });
   }
 
@@ -61,7 +61,7 @@ class _CLientProductListPageState extends State<CLientProductListPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "UserName",
+                  '${_con.user?.name ?? ''} ${_con.user?.lastname ?? ''}',
                   style: TextStyle(
                       color: MyColors.white,
                       fontWeight: FontWeight.bold,
@@ -69,7 +69,7 @@ class _CLientProductListPageState extends State<CLientProductListPage> {
                   maxLines: 1,
                 ),
                 Text(
-                  "Email",
+                  '${_con.user?.email ?? ''} ',
                   style: TextStyle(
                     color: Colors.grey[200],
                     fontWeight: FontWeight.bold,
@@ -79,7 +79,7 @@ class _CLientProductListPageState extends State<CLientProductListPage> {
                   maxLines: 1,
                 ),
                 Text(
-                  "Telefono",
+                  '${_con.user?.phone ?? ''} ',
                   style: TextStyle(
                     color: Colors.grey[200],
                     fontWeight: FontWeight.bold,
@@ -92,7 +92,9 @@ class _CLientProductListPageState extends State<CLientProductListPage> {
                   height: heightImage,
                   margin: EdgeInsets.only(top: marginTopImage),
                   child: FadeInImage(
-                    image: AssetImage("assets/img/no-image.png"),
+                    image: _con.user?.image != null
+                        ? NetworkImage(_con.user?.image)
+                        : AssetImage("assets/img/no-image.png"),
                     fit: BoxFit.contain,
                     fadeInDuration: Duration(milliseconds: 50),
                     placeholder: AssetImage("assets/img/no-image.png"),
@@ -109,11 +111,15 @@ class _CLientProductListPageState extends State<CLientProductListPage> {
             title: Text("Mis Pedidos"),
             trailing: Icon(Icons.shopping_cart),
           ),
-          ListTile(
-            onTap: _con.gotoOrderPages,
-            title: Text("Seleccionar Rol"),
-            trailing: Icon(Icons.person),
-          ),
+          _con.user != null
+              ? _con.user.roles.length > 1
+                  ? ListTile(
+                      onTap: _con.gotoOrderPages,
+                      title: Text("Seleccionar Rol"),
+                      trailing: Icon(Icons.person),
+                    )
+                  : Container()
+              : Container(),
           ListTile(
             onTap: _con.logout,
             title: Text("Cerrar Sesion"),
@@ -122,5 +128,9 @@ class _CLientProductListPageState extends State<CLientProductListPage> {
         ],
       ),
     );
+  }
+
+  void refresh() {
+    setState(() {});
   }
 }
