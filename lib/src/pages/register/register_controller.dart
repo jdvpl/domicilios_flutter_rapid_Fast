@@ -84,4 +84,25 @@ class RegisterController {
   void back() {
     Navigator.pop(context);
   }
+
+  void showGalleryDialog() {
+    Widget galleryButton = ElevatedButton(
+      onPressed: () {},
+      child: Text("Galeria"),
+    );
+    Widget cameraButton = ElevatedButton(
+      onPressed: () {},
+      child: Text("Camara"),
+    );
+
+    AlertDialog alertDialog = AlertDialog(
+      title: Text('Selecciona tu foto de perfil'),
+      actions: [galleryButton, cameraButton],
+    );
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alertDialog;
+        });
+  }
 }

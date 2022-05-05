@@ -38,7 +38,7 @@ class _RegisterPageState extends State<RegisterPage> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    _lottieanimation(),
+                    _imageUser(),
                     _txtFiledEmail(
                         "Correo Electronico",
                         Icon(
@@ -210,14 +210,10 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  Widget _lottieanimation() {
-    return Container(
-      margin:
-          EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.02),
-      child: Lottie.asset('assets/json/register.json',
-          width: MediaQuery.of(context).size.width * 0.7,
-          height: MediaQuery.of(context).size.height * 0.25,
-          fit: BoxFit.fill),
-    );
+  Widget _imageUser() {
+    return CircleAvatar(
+        backgroundImage: AssetImage("assets/img/user_profile_2.png"),
+        radius: 60,
+        backgroundColor: Colors.grey[200]);
   }
 }
