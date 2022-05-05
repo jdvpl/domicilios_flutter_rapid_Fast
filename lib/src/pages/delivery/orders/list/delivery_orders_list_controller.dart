@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rapidfast_delivery/src/providers/users_providers.dart';
 import 'package:rapidfast_delivery/src/utils/shared_pref.dart';
 
-class ClientProductListController {
+class DeliveryOrdersListController {
   BuildContext context;
 
   UsersProviders usersProviders = new UsersProviders();
